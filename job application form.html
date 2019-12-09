@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Экзамен</title>
+	 <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+
+	<form id="form">
+		<h1 align="center">Анкета соискателя работы</h1>
+			<span id='f1war' class='warUnseen'>
+            Фамилия</span><input name="qwe1" type="text" size="20" id="f1" onchange="wLastName()">
+			<span id='f2war' class='warUnseen'>
+            Имя</span><input name="qwe2" type="text" size="15"  id="f2" onchange="wFirstName()">
+			<span id='f3war' class='warUnseen'>
+            Отчество</span><input  name="qwe3" type="text" size="20" id="f3" onchange="wMiddleName()"><br>
+            <span id='f4war' class='warUnseen'>Пол:</span>
+        <input type="radio" name="qwe4" checked="checked" id="f4-1"/>мужской
+        <input type="radio" name="qwe4" id="f4-2"/>женский<br>
+
+			<span id='f5war' class='warUnseen'>
+            Возраст</span><input  name="qwe5" type="text" id="f5" onchange="wAge()"><br><span class='fyears'>(полных лет)</span><br><br>
+            <span id='f6war' class='warUnseen'>
+            Специальность </span><select name="qwe6" id="f6">
+<option value="0" id="a0" selected></option>
+<option value="1" id="a1">бухгалтер</option> <!--Это selectedOptions[0].value=="1"-->
+<option value="2" id="a2">менеджер</option> <!--Это selectedOptions[0].value=="2"-->
+<option value="3" id="a3">финансист</option> <!--И так далее-->
+<option value="4" id="a4">программист</option>
+<option value="5" id="a5">системный администратор</option>
+<option value="6" id="a6">оператор ЭВМ</option>
+<option value="7" id="a7">маркетолог</option>
+<option value="8" id="a8">дизайнер</option>
+<option value="9" id="a9">продавец-консультант</option>
+</select><br>
+<span id='f7war' class='warUnseen'>
+            Наличие автомобиля: </span><input type="checkbox" name="qwe7" id="f7"><br>
+<span id='f8war' class='warUnseen'>
+            Ожидаемая сумма заработной платы (в рублях): </span><input name="qwe8" type="text" size="25" id="f8" onchange="wSalary()"><br>
+
+			<input type="button" id="btn" onclick="reg()" value="Обработать">
+	</form>
+
+	<script>
+var selectedOptions = document.getElementById("f6").selectedOptions; // Переменная для отслеживания специальности сотрудника
+
+function wLastName(){var warning = "";
+	if (form.f1.value == "" || /[^а-яА-я]/.test(form.f1.value))
+            warning += " В поле 'Фамилия' допустима только кириллица "; // Это рудимент. В данный момент используется как помощь разработчику
+        if(warning!=''){f1war.className = "warSeen";f1.className="red";} else {f1war.className = "warUnseen";f1.className="green";}} 
+
+function wFirstName(){var warning = "";
+    if (form.f2.value == "" || /[^а-яА-я]/.test(form.f2.value))
+            warning += " В поле 'Имя' допустима только кириллица ";
+         if(warning!=''){f2war.className = "warSeen";f2.className = "red";} else {f2war.className = "warUnseen";f2.className = "green";}} 
+
+function wMiddleName(){var warning = "";
+	if (form.f3.value == "" || /[^а-яА-я]/.test(form.f3.value))
+            warning += " В поле 'Отчество' допустима только кириллица ";
+         if(warning!=''){f3war.className = "warSeen";f3.className = "red";} else {f3war.className = "warUnseen";f3.className = "green";}} 
+
+function wAge(){var warning = "";
+	if (form.f5.value == "" || /[^0-9]/.test(form.f5.value)|| form.f5.value.length!=2)
+            warning += " Возраст должен быть двухзначным ";
+         if(warning!=''){f5war.className = "warSeen";f5.className = "red";} else {f5war.className = "warUnseen";f5.className = "green";}} 
+function wSalary(){var warning = "";
+    if (form.f8.value == "" || /[^0-9]/.test(form.f8.value))
+            warning += " Зарплата состоит только из цифр ";
+         if(warning!=''){f8war.className = "warSeen";f8.className = "red";} else {f8war.className = "warUnseen";f8.className = "green";}} 
+
+        function reg()
+        {
+        	if // ПРОВЕРКА НА ЗАПОЛНЕННОСТЬ ПОЛЕЙ
+        		(
+                f1.classList.contains('green')&&f2.classList.contains('green')&&f3.classList.contains('green')&&
+        		f5.classList.contains('green')&&f8.classList.contains('green')
+                ) 
+        	   { 
+
+
+ 		 		  if // 1) ПРОВЕРКА НА СООТВЕТСТВИЕ В ОТДЕЛ IT 
+        (form.f5.value>=30&&form.f5.value<=50&&(selectedOptions[0].value=="4"||selectedOptions[0].value=="5")&&form.f8.value>=25000&&form.f8.value<=50000&&document.getElementById("f4-1").checked)
+              	  {
+                alert("Уважаемый "+form.f1.value+" "+form.f2.value+", вам предлагается вакансия в отделе IT");
+
+        f1.classList.remove('green');f2.classList.remove('green');f3.classList.remove('green');
+            f5.classList.remove('green');f8.classList.remove('green');
+      			  }
+                
+
+                 if // 2) ПРОВЕРКА НА СООТВЕТСТВИЕ В ОТДЕЛ МАРКЕТИНГА
+                    (form.f5.value>=25&&form.f5.value<=35&&
+                    	(selectedOptions[0].value=="2"||selectedOptions[0].value=="7"||selectedOptions[0].value=="8")&&
+                    form.f8.value>=15000&&form.f8.value<=25000&&document.getElementById("f7").checked)
+                {
+			    alert("Уважаемый(ая) "+form.f1.value+" "+form.f2.value+", вам предлагается вакансия в отделе Маркетинга");
+
+        f1.classList.remove('green');f2.classList.remove('green');f3.classList.remove('green');
+            f5.classList.remove('green');f8.classList.remove('green');
+                }
+
+
+                 if // 3) ПРОВЕРКА НА СООТВЕТСТВИЕ В ОТДЕЛ ПРОДАЖ
+                    (form.f5.value>=20&&form.f5.value<=30&&
+                    form.f8.value>=10000&&form.f8.value<=20000)
+                {
+ 				alert("Уважаемый(ая) "+form.f1.value+" "+form.f2.value+", вам предлагается вакансия в отделе Продаж");
+
+        f1.classList.remove('green');f2.classList.remove('green');f3.classList.remove('green');
+            f5.classList.remove('green');f8.classList.remove('green');
+                }
+               else  // 4) Если не найдено вакансий, сообщаем об этом.
+                {
+               	alert("Уважаемый(ая) "+form.f1.value+" "+form.f2.value+", спасибо за прохождение анкетирования. К сожалению, подходящих для вас вакансий не найдено.");
+
+               	f1.classList.remove('green');f2.classList.remove('green');f3.classList.remove('green');
+            f5.classList.remove('green');f8.classList.remove('green');
+
+               document.forms[0].reset(); // Стираем форму.
+				}
+
+
+               document.forms[0].reset(); // Если соискатель успешно нашел работу -тоже стираем форму 
+
+
+           }
+
+           else alert("Убедитесь в правильности заполнения всех полей")
+
+        }	
+
+	</script>
+</body>
+</html>
